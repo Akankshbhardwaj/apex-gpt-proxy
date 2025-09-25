@@ -41,8 +41,11 @@ app.post('/summarize', async (req, res) => {
             }
         );
 
-        const summary = response.data.choices[0].message.content;
-        res.json({ summary });
+       const summaryRaw = response.data.choices[0].message.content;
+// Remove newlines and bold markdown
+const summaryClean = summaryRaw.replace(/\n/g, ' ').replace(/\*\*/g, '');
+res.json({ summary: summaryClean });
+
 
     } catch (error) {
         if (error.response && error.response.data) {
